@@ -12,9 +12,30 @@ const postsContainer = select('.posts-container');
 const modal = select('#user-info-modal');
 const modalAppear = select('.header-image img');
 const profileInfo = select('.user-profile');
-const closeModal = select('.close');
+const closeModalButton = select('#closeModal');
 
 
+const monthNames = [
+                     'January', 'February', 'March', 'April', 
+                     'May', 'June', 'July', 'August', 'September', 
+                     'October', 'November', 'December'
+];
+
+const user = new User(2573, 'Ishika', 'ishika15', 'ishika@email.com');
+
+const subscriberData = {
+    id: user.id,
+    name: user.name,
+    userName: user.userName,
+    email: user.email,
+    pages: ['Travel', 'Cooking'],
+    groups: ['Techies', 'Readers'],
+    canMonetize: true
+};
+
+const subscriber = new Subscriber(subscriberData);
+
+                 
 // Display image name
 function displayImageName() {
     const fileName = getFileName(inputImage.files);
@@ -31,24 +52,30 @@ function updateImageName(name) {
     imageNameSpan.textContent = name ? ` ${name}` : '';
 }
 
-// Handle textarea input
-function handleTextAreaInput() {
-    validatePostButton();
-}
 
 // Validate post button based on textarea and image input
 function validatePostButton() {
     const isTextareaEmpty = textarea.value.trim() === '';
     const isImageSelected = inputImage.files.length > 0;
+
     postButton.disabled = isTextareaEmpty && isImageSelected;
+
+}
+
+// Handle textarea input
+function handleTextAreaInput() {
+    validatePostButton();
 }
 
 // Handle post button click
 function handlePost(event) {
     event.preventDefault(); // Prevent the form from submitting and page reloading
 
-    if (!postButton.disabled) {
-        // console.log('Posting...');
+    const postText = textarea.value.trim();
+    const imageSelection = inputImage.files.length > 0;
+
+
+    if ((postText !== '' || imageSelection)&& !postButton.disabled)  {
         displayPost();
         resetForm();
     }
@@ -59,27 +86,16 @@ function displayPost() {
     const postText = textarea.value.trim();
     const postImageFile = inputImage.files[0];
 
-    const user = new User(1, 'Ishika', 'ishika15', 'ishika@email.com');
-    const subscriberData = {
-        id: user.id,
-        name: user.name,
-        userName: user.userName,
-        email: user.email,
-        pages: ['Page1', 'Page2'],
-        groups: ['Group1', 'Group2'],
-        canMonetize: true
-    };
-
-    const subscriber = new Subscriber(subscriberData);
-
     const newPost = document.createElement('section');
     newPost.classList.add('post');
     newPost.innerHTML = `
         <div class="post-header">
-            <div class="post-image">
+            <div class="user-profile">
+            <div class="user-image">
                 <img src="./assets/images/clouds.jpg" alt="">
             </div>
-            <p class="user-name">${subscriber.fullName}</p>
+            <p class="user-name">${subscriber.name}</p>
+            </div>
             <p class="date">${getPostDate()}</p>
         </div>
         <p class="post-content">${postText}<br>${getPostImageText(postImageFile)}</p>
@@ -92,12 +108,16 @@ function displayPost() {
 // Update post date
 function getPostDate() {
     const currentDate = new Date();
-    return currentDate.toDateString(); // Format the date as needed
+    const day = currentDate.getDate();
+    const month = monthNames[currentDate.getMonth()].slice(0, 3);
+    const year = currentDate.getFullYear();
+    
+    return `${month} ${day}, ${year}`;
 }
 
 // Update post content
 function getPostImageText(postImageFile) {
-    return postImageFile ? `<img src="${URL.createObjectURL(postImageFile)}" alt="Posted Image" style="max-width: 100%;">` : '';
+    return postImageFile ? `<img src="${URL.createObjectURL(postImageFile)}" alt="Posted Image" class="post-image">` : '';
 }
 
 // Reset form after posting
@@ -124,8 +144,13 @@ function displayUserInfo(user) {
     modal.style.display = 'block';
 }
 
+function closeModal() {
+    modal.style.display = 'none';
+}
+
+
 // Event listeners
-window.addEventListener('load', function () {
+onEvent('load', window, function () {
     inputImage.value = '';
     textarea.value = '';
 });
@@ -138,18 +163,11 @@ onEvent('click', profileInfo, function() {
     displayUserInfo(subscriber);
 });
 
-onEvent('click', modalAppear, function() {
-    modal.style.display = 'block';
-});
-
-// Close the modal when the close button is clicked
-onEvent('click', closeModal, function() {
-    modal.style.display = 'none';
-});
+onEvent('click', closeModalButton, closeModal);
 
 // Close the modal when clicking outside the modal content
-window.addEventListener('click', function(event) {
+onEvent('click', window, function(event) {
     if (event.target === modal) {
-        modal.style.display = 'none';
+        closeModal();
     }
 });
