@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Fakebook</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link
+        rel="stylesheet"
+         href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500;6..12,600&display=swap"
+         />
+        <link rel="stylesheet" href="./assets/style/index.css" media="all">
+        <script src="./assets/script/index.js" type="module"></script>
+    </head> 
+    <body>
+        <header>
+            <div class="container header">
+                <div>
+                    <h1>Fakebook</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Friends</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="#">Pages</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="#">Groups</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="#">My ads</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="#">Settings</a></li>
+                    </ul>
+                </nav>
+                <div class="header-image">
+                    <img src="./assets/images/clouds.jpg" class="user-profile">
+                </div>
+            </div>
+        </header>
+        <main>
+    
+                <div class="container main">
+                    <form>
+                        <div class="text">
+                            <textarea placeholder="What's new, Ishika?"></textarea>
+                            <div class="icon">
+                                <label for="image-input" class="gallery-icon"><i class="fa-regular fa-image"></i></label>
+                                <input type="file" id="image-input" accept="image/*">
+                                <span class="image-name"></span>
+                            </div>
+                            <button class="button">Post</button>
+                        </div>
+                    </form>
+        
+                    <section id="posts" class="posts-container">
+                    </section>
+                </div>
+        </main>
+        <div id="user-info-modal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <div id="user-info"></div>
+            </div>
+        </div>
+    </body>
+</html>
